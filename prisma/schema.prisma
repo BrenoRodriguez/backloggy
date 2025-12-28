@@ -1,0 +1,69 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+model Games {
+  id           Int           @id @default(autoincrement())
+  name         String
+  cover        String
+  status       String
+  genres       String
+  length       Int?
+  platform     String
+  reviewScore  Float?        @map("review_score")
+  metadata1    String?
+  metadata2    String?
+  metadata3    String?
+  metadata4    String?
+  metadata5    String?
+  listsEntries ListEntries[]
+
+  @@index([name])
+}
+
+model Lists {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  description String?
+  isMain      Boolean       @default(false) @map("is_main")
+  games       ListEntries[]
+}
+
+model ListEntries {
+  id       Int     @id @default(autoincrement())
+  gameId   Int     @map("game_id")
+  listId   Int     @map("list_id")
+  notes    String?
+  position Int
+
+  game    Games @relation(fields: [gameId], references: [id])
+  lists   Lists @relation(fields: [listId], references: [id])
+  listsId Int?
+
+  @@unique([gameId, listId])
+  @@index([position])
+}
+
+model Settings {
+  id                Int     @id @default(autoincrement())
+  displayedMetadata Int     @default(0) @map("display_metadata")
+  metadata1Label    String  @default("Expectation") @map("metadata1_label")
+  metadata1Presets  String? @default(",1 - Must Play,2 - Highly Interested,3 - Moderate Interest,4 - Interested,5 - Worth a Shot,6 - Series Pending,") @map("metadata1_presets")
+  metadata2Status   Boolean @default(false) @map("metadata2_status")
+  metadata2Label    String  @default("Metadata 2") @map("metadata2_label")
+  metadata2Presets  String? @map("metadata2_presets")
+  metadata3Status   Boolean @default(false) @map("metadata3_status")
+  metadata3Label    String  @default("Metadata 3") @map("metadata3_label")
+  metadata3Presets  String? @map("metadata3_presets")
+  metadata4Status   Boolean @default(false) @map("metadata4_status")
+  metadata4Label    String  @default("Metadata 4") @map("metadata4_label")
+  metadata4Presets  String? @map("metadata4_presets")
+  metadata5Status   Boolean @default(false) @map("metadata5_status")
+  metadata5Label    String  @default("Metadata 5") @map("metadata5_label")
+  metadata5Presets  String? @map("metadata5_presets")
+}

@@ -1,0 +1,1 @@
+export const MAX_DISPLAYED_METADATA = 4

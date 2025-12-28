@@ -1,0 +1,2 @@
+export const PAGINATION_MAX_VISIBLE_BUTTONS = 5
+export const LOWEST_PAGE_NUMBER = 1
