@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  games         Game[]
+  lists         List[]
+  settings      Settings?
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model Game {
+  id          Int @id @default(autoincrement())
+  userId      String @map("user_id")
+  name        String
+  cover       String
+  status      GameStatus
+  genres      Genre[]
+  length      Int?
+  platform    String
+  reviewScore Float @map("review_score")
+  metadata1   String?
+  metadata2   String?
+  metadata3   String?
+  metadata4   String?
+  metadata5   String?
+  listEntry   ListEntry[]
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@map("games")
+  @@index([userId])
+}
+
+model List {
+  id          Int @id @default(autoincrement())
+  userId      String @map("user_id")
+  name        String
+  description String?
+  isMain      Boolean @default(false) @map("is_main")
+  listEntries ListEntry[]
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@map("lists")
+  @@index([userId])
+}
+
+model ListEntry {
+  id       Int @id @default(autoincrement())
+  gameId   Int @map("game_id")
+  listId   Int @map("list_id")
+  notes    String?
+  position Int
+  game     Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  list     List @relation(fields: [listId], references: [id], onDelete: Cascade)
+  @@unique([gameId, listId])
+  @@unique([listId, position])
+  @@index([listId])
+}
+
+model Genre {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  games Game[]
+}
+
+model Settings {
+  id               Int @id @default(autoincrement())
+  userId           String @map("user_id") @unique
+  displayMetadata  Int @map("display_metadata") @default(0)
+  metadata1Label   String @map("metadata1_label") @default("Metadata 1")
+  metadata1Presets String[] @map("metadata1_presets") @default([])
+  metadata2Status  Boolean @map("metadata2_status") @default(false)
+  metadata2Label   String @map("metadata2_label") @default("Metadata 2")
+  metadata2Presets String[] @map("metadata2_presets") @default([])
+  metadata3Status  Boolean @map("metadata3_status") @default(false)
+  metadata3Label   String @map("metadata3_label") @default("Metadata 3")
+  metadata3Presets String[] @map("metadata3_presets") @default([])
+  metadata4Status  Boolean @map("metadata4_status") @default(false)
+  metadata4Label   String @map("metadata4_label") @default("Metadata 4")
+  metadata4Presets String[] @map("metadata4_presets") @default([])
+  metadata5Status  Boolean @map("metadata5_status") @default(false)
+  metadata5Label   String @map("metadata5_label") @default("Metadata 5")
+  metadata5Presets String[] @map("metadata5_presets") @default([])
+  user             User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum GameStatus {
+  NOT_RELEASED
+  EARLY_ACCESS
+  REGION_LOCKED
+  BACKLOG
+  PLAYING
+  COMPLETED
+  PLATINUMED
+  DROPPED
+  DLC
+}
