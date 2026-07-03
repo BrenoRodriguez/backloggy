@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "backlog_entry" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP;

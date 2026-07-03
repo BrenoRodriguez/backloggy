@@ -1,0 +1,8 @@
+export type ActionResult<T = void> =
+  | { success: true; data?: T; message?: string }
+  | { success: false; error: string }
+
+export type ListResult<T = void> = {
+  items: T[]
+  pageCount: number
+}
