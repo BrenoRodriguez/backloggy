@@ -47,9 +47,7 @@ export async function Header() {
         </NavLink>
         <div className='flex gap-6 place-self-center'>
           <NavLink href='/games'>Games</NavLink>
-          <NavLink href='/backlog' disabled={true}>
-            Backlog
-          </NavLink>
+          <NavLink href='/backlog'>Backlog</NavLink>
           <NavLink href='/wishlist' disabled={true}>
             Wishlist
           </NavLink>

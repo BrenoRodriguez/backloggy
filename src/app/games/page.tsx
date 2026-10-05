@@ -1,3 +1,4 @@
+import { PaginationNav } from '@/components/PaginationNav'
 import { GameList } from '@/features/games/components/GameList'
 import { GameSearchSettings } from '@/features/games/components/GameSearchSettings'
 import { searchGames } from '../../features/games/actions/searchGames'
@@ -17,7 +18,10 @@ export default async function GamesPage({ searchParams }: GamesPageProp) {
       <h2 className='py-8 text-center text-3xl'>Games</h2>
       <GameSearchSettings />
       <GameList games={games?.games ?? []} />
-      <div></div>
+      <PaginationNav
+        currentPage={games?.currentPage ?? 1}
+        pageCount={games?.pageCount ?? 1}
+      />
     </main>
   )
 }

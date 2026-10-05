@@ -4,11 +4,10 @@ import type {
   GameStatus,
 } from '@/generated/prisma/enums'
 
-import { Tooltip } from '@/components/ui/Tooltip'
+import { CardTitle } from '@/components'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { BacklogItem } from '../types'
-import { truncateText } from '../utils/truncate-text'
 
 type BacklogCardProps = {
   backlogEntry: BacklogItem
@@ -22,7 +21,7 @@ export function BacklogCard({ backlogEntry }: BacklogCardProps) {
     >
       <BacklogEntryCover backlogEntry={backlogEntry} />
       <div className='flex w-fit flex-1 flex-col items-center text-center'>
-        <BacklogEntryTitle backlogEntry={backlogEntry} />
+        <CardTitle name={backlogEntry.game.name} />
         <BacklogEntryContent backlogEntry={backlogEntry} />
       </div>
     </Link>
@@ -39,30 +38,6 @@ function BacklogEntryCover({ backlogEntry }: BacklogCardProps) {
         width={200}
         className='size-full rounded-l-sm object-cover'
       />
-    </div>
-  )
-}
-
-type BacklogCardTruncatedNameProps = {
-  name: string
-  maxLength?: number
-}
-
-function BacklogCardTruncatedName({
-  name,
-  maxLength = 30,
-}: BacklogCardTruncatedNameProps) {
-  const { displayText, isTruncated } = truncateText(name, maxLength)
-
-  if (!isTruncated) return displayText
-
-  return <Tooltip label={displayText}>{name}</Tooltip>
-}
-
-function BacklogEntryTitle({ backlogEntry }: BacklogCardProps) {
-  return (
-    <div className='w-full text-nowrap border-stone-900 border-b py-3 text-lg text-white'>
-      {backlogEntry.game.name}
     </div>
   )
 }

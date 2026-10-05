@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 
 type DialogProps = {
   children: React.ReactNode
-  handle: DialogPrimitive.Handle<string>
+  handle: DialogPrimitive.Handle<unknown>
   title: string
   open: boolean
   setOpen: () => void

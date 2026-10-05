@@ -1,17 +1,15 @@
 import { useField } from '@/hooks'
+import type { FieldProps } from '@/types'
 import { Combobox } from '@base-ui/react'
-import type { FieldValues, UseControllerProps } from 'react-hook-form'
+import type { FieldValues } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
 import { Field } from './ui'
 
 type Options = { label: string; value: string }[] | string[]
 
-type ComboboxFieldProps<T extends FieldValues> = UseControllerProps<T> & {
-  label?: string
-  className?: string
+type ComboboxFieldProps<T extends FieldValues> = FieldProps<T> & {
   options: Options
   emptyText?: string
-  displayError?: boolean
 }
 
 export function ComboboxField<T extends FieldValues>({

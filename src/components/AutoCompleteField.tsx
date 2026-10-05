@@ -23,7 +23,7 @@ export function AutocompleteField<T extends FieldValues>({
   ...props
 }: AutocompleteFieldProps<T>) {
   const { invalid, isDirty, isTouched, ref, onBlur, value, onChange, error } =
-    useField<T>(name, control, rules)
+    useField<T, typeof name>(name, control)
 
   return (
     <Field

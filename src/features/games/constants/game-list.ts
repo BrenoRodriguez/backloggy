@@ -1,1 +1,1 @@
-export const GAME_SEARCH_CARD_LIMIT = 50
+export const GAME_SEARCH_CARD_LIMIT = 45

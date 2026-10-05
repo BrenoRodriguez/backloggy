@@ -7,7 +7,7 @@ type GameListProps = {
 
 export function GameList({ games }: GameListProps) {
   return (
-    <section className='grid grid-cols-3 place-content-center'>
+    <section className='grid grid-cols-3 place-content-center gap-3'>
       {games.map((game) => (
         <GameCard key={game.igdbId} game={game} />
       ))}

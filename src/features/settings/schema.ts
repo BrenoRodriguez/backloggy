@@ -1,6 +1,18 @@
 import z from 'zod'
 
-export const SettingsSchema = z.object({
+const genres = z.object({
+  id: z.string(),
+  name: z.string(),
+})
+
+const GeneralSettingsSchema = z.object({
+  genres: z.array(genres),
+})
+
+export const SettingsSchema = GeneralSettingsSchema
+
+/*
+{
   priority1: z.string(),
   priority2: z.string(),
   priority3: z.string(),
@@ -27,6 +39,8 @@ export const SettingsSchema = z.object({
   customTag5Label: z.string(),
   customTag5Presets: z.array(z.string()).optional(),
   genres: z.string(),
-})
+}
 
-export type SettingsForm = z.infer<typeof SettingsSchema>
+*/
+
+export type SettingsData = z.infer<typeof SettingsSchema>

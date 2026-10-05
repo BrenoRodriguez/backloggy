@@ -1,18 +1,9 @@
 'use client'
 
+import type { FieldProps } from '@/types'
+import { Checkbox, Field } from '@base-ui/react'
+import { useController, type FieldValues } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
-import { Checkbox, Field, type FieldControlProps } from '@base-ui/react'
-import {
-  useController,
-  type FieldValues,
-  type UseControllerProps,
-} from 'react-hook-form'
-
-type CheckboxFieldProps<T extends FieldValues> = FieldControlProps &
-  UseControllerProps<T> & {
-    label?: React.ReactNode
-    className?: string
-  }
 
 export function CheckboxField<T extends FieldValues>({
   name,
@@ -21,7 +12,7 @@ export function CheckboxField<T extends FieldValues>({
   label,
   className,
   ...props
-}: CheckboxFieldProps<T>) {
+}: FieldProps<T>) {
   const { field, fieldState } = useController<T>({ name, control, rules })
 
   const { invalid, isDirty, isTouched } = fieldState

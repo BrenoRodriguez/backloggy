@@ -1,12 +1,9 @@
 'use server'
 
+import { PaginationNav } from '@/components/PaginationNav'
 import { ProtectedPage } from '@/features/auth/components'
 import { getBacklogEntries } from '@/features/backlog/actions/get-backlog-entries'
-import {
-  Backlog,
-  BacklogNav,
-  BacklogSearchSettings,
-} from '@/features/backlog/components'
+import { Backlog, BacklogSearchSettings } from '@/features/backlog/components'
 import type { BacklogPageSearchParams } from '@/features/backlog/types'
 
 type BacklogPageProps = {
@@ -27,7 +24,7 @@ export default async function BacklogPage({ searchParams }: BacklogPageProps) {
         <h2 className='py-8 text-center text-3xl'>Backlog</h2>
         <BacklogSearchSettings />
         <Backlog backlogEntries={backlogEntries} />
-        <BacklogNav />
+        <PaginationNav />
       </main>
     </ProtectedPage>
   )

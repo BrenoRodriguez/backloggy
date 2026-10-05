@@ -1,6 +1,7 @@
 'use client'
 
 import { Button, InputField } from '@/components'
+import { TabNavbar, type Tab } from '@/components/TabNavBar'
 import type { BacklogEntryPayload } from '@/constants/dialog-handles'
 import { replaceImageSize } from '@/utils'
 import { Tabs } from '@base-ui/react/tabs'
@@ -20,7 +21,6 @@ import {
 } from '../schema'
 import { BacklogEntryCustomTagsPanel } from './BacklogEntryCustomTagsPanel'
 import { BacklogEntryGeneralPanel } from './BacklogEntryGeneralPanel'
-import { BacklogEntryNavbar } from './BacklogEntryNav'
 import { BacklogEntryReviewPanel } from './BacklogEntryReviewPanel'
 
 type BacklogEntryProps = {
@@ -40,6 +40,12 @@ export function BacklogEntryForm({
     sortOrder: data?.sortOrder,
     status: 'BACKLOG',
   }
+
+  const BACKLOG_ENTRY_TAB_NAV_OPTIONS: Tab[] = [
+    { value: 'general', label: 'General' },
+    { value: 'custom-tags', label: 'Custom Tags' },
+    { value: 'review', label: 'Review' },
+  ]
 
   const form = useForm<BacklogEntryInput>({
     resolver: zodResolver(BacklogEntrySchema),
@@ -74,7 +80,10 @@ export function BacklogEntryForm({
           </div>
         </div>
         <Tabs.Root className='flex h-full w-full gap-8'>
-          <BacklogEntryNavbar />
+          <TabNavbar
+            tabs={BACKLOG_ENTRY_TAB_NAV_OPTIONS}
+            variant='backlogEntry'
+          />
           <BacklogEntryGeneralPanel
             platformSuggestions={data?.platformSuggestions ?? []}
           />

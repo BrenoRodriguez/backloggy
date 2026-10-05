@@ -5,15 +5,13 @@ import {
   type FieldValues,
   type Path,
   useController,
-  type UseControllerProps,
 } from 'react-hook-form'
 
-export function useField<T extends FieldValues>(
-  name: Path<T>,
-  control: Control<T, any, T> | undefined,
-  rules: UseControllerProps<T>['rules'],
+export function useField<T extends FieldValues, K extends Path<T>>(
+  name: K,
+  control: Control<T> | undefined,
 ) {
-  const { field, fieldState } = useController<T>({ name, control, rules })
+  const { field, fieldState } = useController<T, K>({ name, control })
 
   const { invalid, isDirty, isTouched, error } = fieldState
   const { ref, value, onBlur, onChange } = field
